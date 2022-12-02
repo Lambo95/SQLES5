@@ -1,0 +1,260 @@
+--DROP TABLE Anagrafica
+--DROP TABLE Tipo_Violazione
+--DROP TABLE VERBALE
+
+
+Create table Anagrafica(
+	idanagrafica int primary key not null identity,
+	Cognome nvarchar(20) NOT NULL,
+	Nome nvarchar(20) NOT NULL,
+	Indirizzo nvarchar(20) NOT NULL,
+	Città nvarchar(20) NOT NULL,
+	CAP char(6) NULL,
+	Cod_Fisc Char(16) NOT NULL UNIQUE,
+
+)
+
+Create table Tipo_Violazione (
+	idviolazione int primary key not null identity,
+	descrizione nvarchar(100) NOT NULL,
+)
+
+Create table VERBALE (
+	idverbale int primary key not null identity,
+	DataViolazione date not null,
+	IndirizzoViolazione nvarchar(20) NOT NULL,
+	Nominativo_Agente nvarchar(40) NOT NULL,
+	DataTrascrizioneVerbale date not null,
+	Importo money not null,
+	DecurtamentoPunti int not null, 
+	idanagrafica int not null,
+	idviolazione int not null,
+	CONSTRAINT FK_Anagrafica_Verbale
+	FOREIGN KEY (idanagrafica)REFERENCES Anagrafica(idanagrafica),
+	CONSTRAINT FK_Violazione_Verbale
+	FOREIGN KEY (idviolazione)REFERENCES Tipo_Violazione(idviolazione)
+)
+
+--insert into Anagrafica values('Martini',
+--	'Lamberto',
+--	'Via Pinco 161',
+--	'Torino',
+--	10136,
+--	'sdfsdfsdf')
+
+--	insert into Anagrafica values('Laguda',
+--	'Stefano',
+--	'Via Rossi 54',
+--	'Firenze',
+--	12360,
+--	'ssadassdf')
+
+--	insert into Anagrafica values('Puccio',
+--	'Marco',
+--	'Via teacher 23',
+--	'Catania',
+--	12054,
+--	'sdsfs32f')
+
+--	insert into Anagrafica values('Lerra',
+--	'Nicola',
+--	'Corso orta 2',
+--	'Bari',
+--	15804,
+--	'sxzczcf')
+
+
+--insert into Tipo_Violazione values(
+--'Passaggio col rosso')
+
+--insert into Tipo_Violazione values(
+--'Guida stato di ebrezza')
+
+--insert into Tipo_Violazione values(
+--'Superamento doppia striscia')
+
+--insert into Tipo_Violazione values(
+--'Superamento limiti velocità')
+
+
+--insert into Tipo_Violazione values(
+--'Mancato pedaggio')
+
+--insert into Tipo_Violazione values(
+--'Modifiche non omologate')
+
+--insert into Tipo_Violazione values(
+--'Multa per mancata revisione del veicolo')
+
+
+--insert into Tipo_Violazione values(
+--'Multa per divieto di sosta')
+
+--insert into Verbale values('10/08/2008',
+--	'Via html 152',
+--	'Simone Ponzani (Sticky)',
+--	'12/08/2008',
+--	400,
+--	5, 
+--	1,
+--	4
+--)
+
+--insert into Verbale values('10/07/2018',
+--	'Via css 15',
+--	'Cristiano Alliotta (Scialla)',
+--	'15/08/2018',
+--	1200,
+--	12, 
+--	1,
+--	2
+--)
+--insert into Verbale values('5/02/2001',
+--	'Via Boot 12',
+--	'Luca Senatore',
+--	'18/03/2001',
+--	550,
+--	30, 
+--	2,
+--	3
+--)
+
+--insert into Verbale values('10/08/2006',
+--	'Via angular 000',
+--	'Daniela De Filippo',
+--	'2/09/2006',
+--	700,
+--	10, 
+--	2,
+--	5
+--)
+
+--insert into Verbale values('02/06/2009',
+--	'Via camerun 26',
+--	'Andrea Savigliano',
+--	'12/06/2009',
+--	250,
+--	4, 
+--	3,
+--	6
+--)
+
+
+--insert into Verbale values('05/09/2006',
+--	'Via barboncino 16',
+--	'Simone Ponzani (Sticky)',
+--	'1/10/2006',
+--	300,
+--	9, 
+--	2,
+--	1
+--)
+
+
+--insert into Verbale values('10/12/2022',
+--	'Via sparo 152',
+--	'Cristiano Alliotta (Scialla)',
+--	'12/12/2022',
+--	90,
+--	5, 
+--	4,
+--	5
+--)
+--insert into Verbale values('03/05/2009',
+--	'Via stnchi 1000',
+--	'Luca Senatore',
+--	'08/05/2009',
+--	600,
+--	5, 
+--	4,
+--	6
+--)
+
+--select * from anagrafica
+
+--select * from tipo_violazione
+
+
+---- 1)
+--select count(*) as NumVerbali From verbale
+
+
+----2)
+	--select count(*) as numVerbali, nome
+	--from verbale
+	--inner join 
+	--anagrafica
+	--on verbale.idanagrafica = anagrafica.idanagrafica
+	--group by nome
+
+----3)
+	--select count(*) as numVerbali, descrizione
+	--from verbale
+	--inner join 
+	--tipo_violazione
+	--on verbale.idviolazione = tipo_violazione.idviolazione
+	--group by descrizione
+
+----4)
+	--select sum(DecurtamentoPunti) as TotPuntiDecurtati, cognome
+	--from verbale
+	--inner join 
+	--Anagrafica
+	--on verbale.idanagrafica = Anagrafica.idanagrafica
+	--group by cognome
+
+----5)
+	--select cognome, nome, IndirizzoViolazione, Importo, DecurtamentoPunti, Città
+	--from Anagrafica
+	--inner join 
+	--verbale
+	--on Anagrafica.idanagrafica = verbale.idanagrafica
+	--where Città = 'Palermo'
+
+
+----6)
+	--select cognome, nome, IndirizzoViolazione, Importo, DecurtamentoPunti, Città
+	--from Anagrafica
+	--inner join 
+	--verbale
+	--on Anagrafica.idanagrafica = verbale.idanagrafica
+	--where DataViolazione between '01/02/2009' and '31/07/2009'
+	
+
+----7)
+	--select cognome, nome, Importo
+	--from Anagrafica
+	--inner join 
+	--verbale
+	--on Anagrafica.idanagrafica = verbale.idanagrafica
+	--group by Cognome, Nome, Importo
+	
+
+----8)
+	--select cognome, nome, Città
+	--from Anagrafica
+	--where Città = 'Palermo'
+
+----10)
+	--SELECT COUNT(*) as violazioni_contestate, nominativo_agente
+	--from VERBALE
+	--group by Nominativo_Agente
+
+----11)
+	--select Cognome, Nome, Indirizzo, Dataviolazione, Importo, DecurtamentoPunti
+	--from Anagrafica
+	--inner join 
+	--verbale
+	--on Anagrafica.idanagrafica = verbale.idanagrafica
+	--where DecurtamentoPunti>5
+	
+
+
+----12)
+	--select Cognome, Nome, Indirizzo, Dataviolazione, Importo, DecurtamentoPunti
+	--from Anagrafica
+	--inner join 
+	--verbale
+	--on Anagrafica.idanagrafica = verbale.idanagrafica
+	--where Importo > 400
+	
